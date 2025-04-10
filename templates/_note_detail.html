@@ -1,0 +1,60 @@
+<!-- Takes a single Note struct as input -->
+<h2>{{ .OriginalFilename }}</h2>
+<small>Created: {{ .CreatedAt.Format "Jan 02, 2006 15:04:05" }}</small>
+
+<!-- Add buttons to switch view? -->
+<div>
+  <button
+    hx-get="/notes/{{ .ID.Hex }}?type=details"
+    hx-target="#note-content"
+    hx-swap="innerHTML"
+    hx-indicator="#note-content"
+  >
+    Details
+  </button>
+  <button
+    hx-get="/notes/{{ .ID.Hex }}?type=html"
+    hx-target="#note-content"
+    hx-swap="innerHTML"
+    hx-indicator="#note-content"
+  >
+    Rendered HTML
+  </button>
+  <button
+    hx-get="/notes/{{ .ID.Hex }}?type=markdown"
+    hx-target="#note-content"
+    hx-swap="innerHTML"
+    hx-indicator="#note-content"
+  >
+    Raw Markdown
+  </button>
+</div>
+
+<hr />
+
+<h3>Content:</h3>
+<!-- Render HTML content safely -->
+<div>{{ .HTMLContent | safeHTML }}</div>
+
+<hr />
+
+<h3>Grammar Issues ({{ len .GrammarIssues }})</h3>
+{{ if .GrammarIssues }}
+<ul>
+  {{ range .GrammarIssues }}
+  <li class="grammar-issue">
+    <p><strong>{{ .Message }}</strong></p>
+    <p>Context: <code>...{{ .Context }}...</code></p>
+    {{ if .Suggestions }}
+    <p>Suggestions: {{ range .Suggestions }}<span>{{ . }}</span>{{ end }}</p>
+    {{ end }}
+    <small>(Offset: {{.Offset}}, Length: {{.Length}})</small>
+  </li>
+  {{ end }}
+</ul>
+{{ else }}
+<p>No grammar issues found (or checker unavailable).</p>
+{{ end }} {{/* Define safeHTML function if not already globally available */}}
+{{/* Or handle HTML rendering carefully in Go handler if preferred */}} {{
+define "safeHTML" }}{{ . }}{{ end }} {{/* Basic placeholder - ideally needs
+proper sanitization context */}}

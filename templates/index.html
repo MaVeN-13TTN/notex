@@ -1,0 +1,50 @@
+{{ define "title" }}Go Notes App{{ end }} {{ define "content" }}
+<h1>Go + HTMX Notes App</h1>
+
+<h2>Upload New Note (.md)</h2>
+<!--
+    hx-post: Send POST request to /notes
+    hx-target: Put the response HTML into the #note-list element
+    hx-swap: Replace the entire content of the target
+    hx-encoding: Use multipart/form-data for file upload
+    hx-indicator: Show the element with #upload-indicator during the request
+-->
+<form
+  hx-post="/notes"
+  hx-target="#note-list"
+  hx-swap="innerHTML"
+  hx-encoding="multipart/form-data"
+  hx-indicator="#upload-indicator"
+>
+  <div>
+    <label for="noteFile">Select Markdown File:</label>
+    <input type="file" id="noteFile" name="noteFile" accept=".md" required />
+  </div>
+  <div>
+    <button type="submit">
+      Upload Note
+      <span id="upload-indicator" class="loader"></span>
+      <!-- Spinner -->
+    </button>
+  </div>
+</form>
+<div id="upload-error" class="error"></div>
+<!-- Placeholder for potential errors -->
+
+<hr />
+
+<h2>Existing Notes</h2>
+<!-- Container for the list of notes, will be updated by HTMX -->
+<div id="note-list">
+  {{/* Initial rendering of the note list partial */}} {{ template
+  "_notelist.html" .Notes }}
+</div>
+
+<hr />
+
+<h2>Note Content</h2>
+<!-- Container for displaying the selected note's content -->
+<div id="note-content">
+  <p>Select a note from the list above to view its details.</p>
+</div>
+{{ end }}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Simple styling - replace with a CSS framework if desired -->
+    <style>
+      body {
+        font-family: sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+      }
+      nav li {
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav li:hover {
+        background-color: #e9e9e9;
+      }
+      nav a {
+        text-decoration: none;
+        color: #007bff;
+        cursor: pointer;
+      }
+      .actions button,
+      .actions a {
+        margin-left: 10px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .delete-btn {
+        background-color: #dc3545;
+        color: white;
+      }
+      .view-btn {
+        background-color: #007bff;
+        color: white;
+      }
+      #note-content {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        min-height: 100px;
+      }
+      #note-content h2 {
+        margin-top: 0;
+      }
+      .grammar-issue {
+        border-left: 3px solid orange;
+        padding-left: 10px;
+        margin-bottom: 1em;
+        font-size: 0.9em;
+      }
+      .grammar-issue code {
+        background-color: #eee;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      .grammar-issue strong {
+        color: #c0392b;
+      }
+      .suggestions span {
+        background: #d4edda;
+        color: #155724;
+        padding: 2px 5px;
+        margin-right: 5px;
+        border-radius: 3px;
+      }
+      form div {
+        margin-bottom: 10px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="file"] {
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 3px;
+      }
+      button[type="submit"] {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      button[type="submit"]:hover {
+        background-color: #218838;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      .loader {
+        /* Basic CSS loader */
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: none; /* Hidden initially */
+        margin-left: 10px;
+      }
+      .htmx-request .loader {
+        display: inline-block;
+      } /* Show loader during request */
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
+    <!-- Include HTMX -->
+    <script src="/static/htmx.min.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      {{ block "content" . }}
+      <!-- Default content if block is not defined -->
+      <h1>Welcome</h1>
+      {{ end }}
+    </div>
+
+    <!-- Global Indicator for HTMX requests -->
+    <!-- <div id="global-indicator" class="htmx-indicator">Loading...</div> -->
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!-- Takes a slice of Note structs as input -->
+<nav>
+  <ul>
+    {{ if not . }}
+    <li>No notes yet. Upload one!</li>
+    {{ else }} {{ range . }}
+    <li>
+      <span
+        >{{ .OriginalFilename }} ({{ .CreatedAt.Format "Jan 02, 2006 15:04"
+        }})</span
+      >
+      <div class="actions">
+        <!--
+                            hx-get: Fetch details via GET
+                            hx-target: Put response into #note-content
+                            hx-swap: Replace content
+                            hx-indicator: Show loader in the target area during fetch
+                         -->
+        <button
+          class="view-btn"
+          hx-get="/notes/{{ .ID.Hex }}?type=details"
+          hx-target="#note-content"
+          hx-swap="innerHTML"
+          hx-indicator="#note-content"
+        >
+          View Details
+        </button>
+        <!--
+                            hx-delete: Send DELETE request
+                            hx-target: Update the #note-list itself after delete
+                            hx-swap: Replace the list content
+                            hx-confirm: Ask user before deleting
+                            hx-indicator: Show loader next to delete button
+                         -->
+        <button
+          class="delete-btn"
+          hx-delete="/notes/{{ .ID.Hex }}"
+          hx-target="#note-list"
+          hx-swap="innerHTML"
+          hx-confirm="Are you sure you want to delete '{{ .OriginalFilename }}'?"
+          hx-indicator="#delete-indicator-{{ .ID.Hex }}"
+        >
+          Delete
+          <span id="delete-indicator-{{ .ID.Hex }}" class="loader"></span>
+        </button>
+      </div>
+    </li>
+    {{ end }} {{ end }}
+  </ul>
+</nav>
