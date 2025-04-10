@@ -1,5 +1,16 @@
-{{ define "title" }}Go Notes App{{ end }} {{ define "content" }}
-<h1>Go + HTMX Notes App</h1>
+{{ define "title" }}Notes App{{ end }} {{ define "content" }}
+<div class="app-header">
+  <h1>NoteX</h1>
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" />
+      <div class="slider round">
+        <span class="moon">🌙</span>
+        <span class="sun">☀️</span>
+      </div>
+    </label>
+  </div>
+</div>
 
 <h2>Upload New Note (.md)</h2>
 <!--

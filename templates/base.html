@@ -5,92 +5,243 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Simple styling - replace with a CSS framework if desired -->
     <style>
-      body {
-        font-family: sans-serif;
-        line-height: 1.6;
-        margin: 20px;
-        background-color: #f4f4f4;
+      :root {
+        --primary-color: #4a6fa5;
+        --primary-hover: #3a5985;
+        --secondary-color: #47b881;
+        --secondary-hover: #389b6b;
+        --error-color: #d73a49;
+        --warning-color: #f1c40f;
+        --light-bg: #f9f9fb;
+        --border-color: #dfe3e8;
+        --text-color: #2d3748;
+        --text-light: #718096;
+        --container-bg: #fff;
+        --container-shadow: rgba(0, 0, 0, 0.08);
+        --code-bg: #f5f7fa;
       }
+
+      /* Dark mode variables */
+      [data-theme="dark"] {
+        --primary-color: #6d8fc8;
+        --primary-hover: #8ba5d6;
+        --secondary-color: #5acd9a;
+        --secondary-hover: #6ddfad;
+        --error-color: #ff5a67;
+        --warning-color: #ffd43b;
+        --light-bg: #1a1d21;
+        --border-color: #3a3f4b;
+        --text-color: #e2e8f0;
+        --text-light: #a0aec0;
+        --container-bg: #282c34;
+        --container-shadow: rgba(0, 0, 0, 0.3);
+        --code-bg: #32363f;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        background-color: var(--light-bg);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+      }
+
       .container {
         max-width: 900px;
-        margin: auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 40px auto;
+        background: var(--container-bg);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px var(--container-shadow);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
       }
       h1,
-      h2 {
-        color: #333;
+      h2,
+      h3 {
+        color: var(--text-color);
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
       }
+
+      h1 {
+        font-size: 2rem;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
       nav ul {
         list-style: none;
         padding: 0;
+        margin: 1.5rem 0;
       }
+
       nav li {
-        margin-bottom: 10px;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        margin-bottom: 12px;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
+
       nav li:hover {
-        background-color: #e9e9e9;
+        background-color: #f5f8ff;
+        border-color: var(--primary-color);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
       }
       nav a {
         text-decoration: none;
-        color: #007bff;
+        color: var(--primary-color);
+        font-weight: 500;
         cursor: pointer;
+        transition: color 0.2s ease;
       }
+
+      nav a:hover {
+        color: var(--primary-hover);
+        text-decoration: underline;
+      }
+
       .actions button,
       .actions a {
-        margin-left: 10px;
-        padding: 5px 10px;
+        margin-left: 12px;
+        padding: 8px 14px;
         border: none;
-        border-radius: 3px;
+        border-radius: 6px;
         cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
+
+      .actions button:hover,
+      .actions a:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+      }
+
       .delete-btn {
-        background-color: #dc3545;
+        background-color: var(--error-color);
         color: white;
       }
+
+      .delete-btn:hover {
+        background-color: #c23141;
+      }
+
       .view-btn {
-        background-color: #007bff;
+        background-color: var(--primary-color);
         color: white;
+      }
+
+      .view-btn:hover {
+        background-color: var(--primary-hover);
       }
       #note-content {
-        margin-top: 20px;
-        padding: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        min-height: 100px;
+        margin-top: 25px;
+        padding: 24px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--container-bg);
+        min-height: 200px;
+        box-shadow: 0 2px 10px var(--container-shadow);
+        transition: all 0.3s ease;
       }
+
+      #note-content:hover {
+        box-shadow: 0 4px 15px var(--container-shadow);
+      }
+
       #note-content h2 {
         margin-top: 0;
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-color);
       }
-      .grammar-dropdown {
-        border: 1px solid #ddd;
+
+      /* Markdown content styling */
+      #note-content p {
+        margin: 1em 0;
+        line-height: 1.7;
+      }
+
+      #note-content a {
+        color: var(--primary-color);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--primary-color);
+      }
+
+      #note-content a:hover {
+        border-bottom: 1px solid var(--primary-color);
+      }
+
+      #note-content code:not(.grammar-issue code) {
+        background: var(--code-bg);
+        padding: 2px 5px;
         border-radius: 4px;
-        margin-bottom: 20px;
-        overflow: hidden;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+          monospace;
+        font-size: 0.9em;
+        transition: background-color 0.3s ease;
       }
+
+      #note-content pre {
+        background: var(--code-bg);
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        border: 1px solid var(--border-color);
+        transition: background-color 0.3s ease;
+      }
+
+      #note-content blockquote {
+        border-left: 4px solid var(--primary-color);
+        padding-left: 15px;
+        color: var(--text-light);
+        margin-left: 0;
+        font-style: italic;
+      }
+
+      .grammar-dropdown {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin: 25px 0;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+      }
+
+      .grammar-dropdown:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      }
+
       .grammar-dropdown-header {
-        background-color: #f5f5f5;
-        padding: 10px 15px;
+        background-color: var(--code-bg);
+        padding: 15px 20px;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: background-color 0.2s ease;
       }
+
       .grammar-dropdown-header:hover {
-        background-color: #e9e9e9;
+        background-color: var(--border-color);
       }
+
       .grammar-dropdown-header.error {
-        background-color: #fff3cd;
-        border-left: 4px solid #ffc107;
+        background-color: rgba(255, 243, 205, 0.2);
+        border-left: 4px solid var(--warning-color);
       }
       .grammar-dropdown-content {
         max-height: 0;
@@ -180,10 +331,121 @@
           transform: rotate(360deg);
         }
       }
+
+      /* Theme toggle switch styling */
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .theme-switch-wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      .theme-switch {
+        display: inline-block;
+        height: 34px;
+        position: relative;
+        width: 60px;
+      }
+
+      .theme-switch input {
+        display: none;
+      }
+
+      .slider {
+        background-color: #ccc;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: 0.4s;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5px;
+      }
+
+      .slider:before {
+        background-color: #fff;
+        bottom: 4px;
+        content: "";
+        height: 26px;
+        left: 4px;
+        position: absolute;
+        transition: 0.4s;
+        width: 26px;
+        z-index: 2;
+      }
+
+      input:checked + .slider {
+        background-color: var(--primary-color);
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .sun,
+      .moon {
+        font-size: 15px;
+        color: white;
+        z-index: 1;
+      }
     </style>
     <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
     <!-- Include HTMX -->
     <script src="/static/htmx.min.js" defer></script>
+
+    <!-- Theme switching script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggleSwitch = document.querySelector("#checkbox");
+        const currentTheme = localStorage.getItem("theme");
+
+        // Check for saved theme preference or use OS preference
+        if (currentTheme) {
+          document.documentElement.setAttribute("data-theme", currentTheme);
+          if (currentTheme === "dark") {
+            toggleSwitch.checked = true;
+          }
+        } else {
+          // Use OS preference as default
+          if (
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+            document.documentElement.setAttribute("data-theme", "dark");
+            toggleSwitch.checked = true;
+            localStorage.setItem("theme", "dark");
+          }
+        }
+
+        // Listen for toggle switch change
+        toggleSwitch.addEventListener("change", function (e) {
+          if (this.checked) {
+            document.documentElement.setAttribute("data-theme", "dark");
+            localStorage.setItem("theme", "dark");
+          } else {
+            document.documentElement.setAttribute("data-theme", "light");
+            localStorage.setItem("theme", "light");
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container">
