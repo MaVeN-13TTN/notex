@@ -38,23 +38,54 @@
 
 <hr />
 
-<h3>Grammar Issues ({{ len .GrammarIssues }})</h3>
-{{ if .GrammarIssues }}
-<ul>
-  {{ range .GrammarIssues }}
-  <li class="grammar-issue">
-    <p><strong>{{ .Message }}</strong></p>
-    <p>Context: <code>...{{ .Context }}...</code></p>
-    {{ if .Suggestions }}
-    <p>Suggestions: {{ range .Suggestions }}<span>{{ . }}</span>{{ end }}</p>
+<div class="grammar-dropdown">
+  <div
+    class="grammar-dropdown-header {{ if gt (len .GrammarIssues) 0 }}error{{ end }}"
+    onclick="toggleGrammarDropdown()"
+  >
+    <h3 style="margin: 0">Grammar Issues ({{ len .GrammarIssues }})</h3>
+    <span class="dropdown-arrow">▼</span>
+  </div>
+  <div id="grammar-issues" class="grammar-dropdown-content">
+    {{ if .GrammarIssues }}
+    <ul style="list-style-type: none; padding-left: 0">
+      {{ range .GrammarIssues }}
+      <li class="grammar-issue">
+        <p><strong>{{ .Message }}</strong></p>
+        <p>Context: <code>...{{ .Context }}...</code></p>
+        {{ if .Suggestions }}
+        <div class="suggestions">
+          <p>
+            Suggestions: {{ range .Suggestions }}<span>{{ . }}</span>{{ end }}
+          </p>
+        </div>
+        {{ end }}
+        <small>(Offset: {{.Offset}}, Length: {{.Length}})</small>
+      </li>
+      {{ end }}
+    </ul>
+    {{ else }}
+    <p style="padding: 10px">
+      No grammar issues found (or checker unavailable).
+    </p>
     {{ end }}
-    <small>(Offset: {{.Offset}}, Length: {{.Length}})</small>
-  </li>
-  {{ end }}
-</ul>
-{{ else }}
-<p>No grammar issues found (or checker unavailable).</p>
-{{ end }} {{/* Define safeHTML function if not already globally available */}}
-{{/* Or handle HTML rendering carefully in Go handler if preferred */}} {{
-define "safeHTML" }}{{ . }}{{ end }} {{/* Basic placeholder - ideally needs
-proper sanitization context */}}
+  </div>
+</div>
+
+<script>
+  function toggleGrammarDropdown() {
+    const content = document.getElementById("grammar-issues");
+    content.classList.toggle("open");
+
+    const arrow = document.querySelector(".dropdown-arrow");
+    if (content.classList.contains("open")) {
+      arrow.textContent = "▲";
+    } else {
+      arrow.textContent = "▼";
+    }
+  }
+</script>
+{{/* Define safeHTML function if not already globally available */}} {{/* Or
+handle HTML rendering carefully in Go handler if preferred */}} {{ define
+"safeHTML" }}{{ . }}{{ end }} {{/* Basic placeholder - ideally needs proper
+sanitization context */}}
